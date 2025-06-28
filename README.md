@@ -22,7 +22,7 @@ A secure, modern voting platform built with Spring Boot, featuring Google OAuth2
 
 ### Prerequisites
 
-- **Java 17+**
+- **Java 21**
 - **PostgreSQL 12+**
 - **Maven 3.6+**
 - **Git**
@@ -71,6 +71,7 @@ A secure, modern voting platform built with Spring Boot, featuring Google OAuth2
    ```
 
 5. **Run the application**
+   you can just edit the makefile with the necessary credentials and run Make run to avoid the steps above 
    ```bash
    make run
    # or
@@ -84,10 +85,9 @@ The application will start on `http://localhost:8080`
 Create a `.env` file in the project root:
 
 ```env
-DB_URL=jdbc:postgresql://localhost:5432/voting_system
+DB_URL=jdbc:postgresql://localhost:5432/yourdatabasename
 DB_USERNAME=your_db_user
 DB_PASSWORD=your_db_password
-JWT_SECRET=your_jwt_secret
 ```
 
 ## 📖 API Usage
@@ -154,15 +154,13 @@ Client → Security Filter → JWT Filter → Controller → Service → Reposit
 | **Database** | PostgreSQL + JPA/Hibernate |
 | **Authentication** | Google OAuth2 + Custom JWT |
 | **Build Tool** | Maven |
-| **Java Version** | 17+ |
+| **Java Version** | 21 |
 
 ## 📚 Documentation
 
 - **[Architecture Guide](docs/ARCHITECTURE.md)** - Technical deep dive and system design
 - **[API Reference](docs/API.md)** - Complete API documentation with examples
 - **[Development Guide](docs/DEVELOPMENT.md)** - Setup, coding guidelines, and best practices
-- **[Deployment Guide](docs/DEPLOYMENT.md)** - Production deployment instructions
-- **[Security Details](docs/SECURITY.md)** - Security implementation and best practices
 
 ## 🧪 Testing
 
@@ -216,8 +214,8 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## 🐛 Issues & Support
 
-- **Bug Reports**: [GitHub Issues](https://github.com/yourusername/VotingSystem/issues)
-- **Feature Requests**: [GitHub Discussions](https://github.com/yourusername/VotingSystem/discussions)
+- **Bug Reports**: [GitHub Issues](https://github.com/Hancho7/VotingSystem/issues)
+- **Feature Requests**: [GitHub Discussions](https://github.com/Hancho7/VotingSystem/discussions)
 - **Documentation**: Check our [docs folder](docs/)
 
 ## 📄 License
@@ -236,6 +234,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **⭐ Star this repository if you find it helpful!**
 
-Made with ❤️ by [Your Name](https://github.com/yourusername)
+Made with ❤️ by [Jose Jefferson](https://github.com/Hancho7)
 
 </div>
