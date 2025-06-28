@@ -431,10 +431,6 @@ spring:
 
 # External service URLs
 googleTokenInfoUrl: https://www.googleapis.com/oauth2/v1/tokeninfo
-
-# JWT configuration (legacy)
-jwt:
-  secret: ${JWT_SECRET}
 ```
 
 ### Environment Variables
@@ -444,7 +440,6 @@ jwt:
 | `DB_URL` | Database connection | `jdbc:postgresql://localhost:5432/voting_system` |
 | `DB_USERNAME` | Database user | `voting_user` |
 | `DB_PASSWORD` | Database password | `secure_password` |
-| `JWT_SECRET` | Legacy JWT secret | `your_secret_key` |
 
 ### RSA Key Configuration
 
