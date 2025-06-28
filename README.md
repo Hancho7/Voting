@@ -2,7 +2,7 @@
 
 A secure, modern voting platform built with Spring Boot, featuring Google OAuth2 authentication and robust JWT token management. Designed for scalability, security, and ease of use.
 
-[![Java](https://img.shields.io/badge/Java-17+-orange.svg)](https://openjdk.java.net/)
+[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.java.net/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-green.svg)](https://spring.io/projects/spring-boot)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12+-blue.svg)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -85,9 +85,9 @@ The application will start on `http://localhost:8080`
 Create a `.env` file in the project root:
 
 ```env
-DB_URL=jdbc:postgresql://localhost:5432/yourdatabasename
-DB_USERNAME=your_db_user
-DB_PASSWORD=your_db_password
+DB_URL=jdbc:postgresql://localhost:5432/database_name
+DB_USERNAME=name_of_user
+DB_PASSWORD=db_password
 ```
 
 ## 📖 API Usage
@@ -185,42 +185,6 @@ Client → Security Filter → JWT Filter → Controller → Service → Reposit
 docker build -t voting-system .
 ```
 
-## 🚀 Deployment
-
-The application can be deployed using:
-
-- **JAR file** - `java -jar target/VotingSystem-*.jar`
-- **Docker** - See [Deployment Guide](docs/DEPLOYMENT.md)
-- **Cloud platforms** - AWS, GCP, Azure compatible
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📋 Roadmap
-
-- [ ] **Voting Core Features** - Poll creation and voting logic
-- [ ] **Role-Based Access Control** - Admin, voter, observer roles
-- [ ] **Real-time Updates** - WebSocket integration
-- [ ] **Audit Trail** - Vote tracking and verification
-- [ ] **Analytics Dashboard** - Vote results and reporting
-- [ ] **Mobile API** - Enhanced mobile support
-
-## 🐛 Issues & Support
-
-- **Bug Reports**: [GitHub Issues](https://github.com/Hancho7/VotingSystem/issues)
-- **Feature Requests**: [GitHub Discussions](https://github.com/Hancho7/VotingSystem/discussions)
-- **Documentation**: Check our [docs folder](docs/)
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
