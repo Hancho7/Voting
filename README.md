@@ -160,7 +160,6 @@ Client → Security Filter → JWT Filter → Controller → Service → Reposit
 
 - **[Architecture Guide](docs/ARCHITECTURE.md)** - Technical deep dive and system design
 - **[API Reference](docs/API.md)** - Complete API documentation with examples
-- **[Development Guide](docs/DEVELOPMENT.md)** - Setup, coding guidelines, and best practices
 
 ## 🧪 Testing
 
