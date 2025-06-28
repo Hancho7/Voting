@@ -4,37 +4,70 @@ import com.hancho.VotingSystem.commons.dtos.TokenClaims;
 import com.hancho.VotingSystem.user.dtos.UserRecord;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import java.io.IOException;
+import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 @Component
-class JwtService {
+public class JwtService {
 
-  private SecretKey secretKey;
+  @Value("${jwt.private-key-path:classpath:keys/private_key.pem}")
+  private Resource privateKeyResource;
 
-  private final long ACCESS_EXPIRY = 60 * 60 * 3;
+  @Value("${jwt.public-key-path:classpath:keys/public_key.pem}")
+  private Resource publicKeyResource;
 
-  private final long REFRESH_EXPIRY = 60 * 60 * 3;
+  private PrivateKey privateKey;
+  private PublicKey publicKey;
 
-  public JwtService() {
-    try {
+  private final long ACCESS_EXPIRY = 60 * 60 * 1; // 1 hour
+  private final long REFRESH_EXPIRY = 60 * 60 * 24 * 7; // 7 days
 
-      KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
-      SecretKey key = keyGenerator.generateKey();
-      String encodedKey = Base64.getEncoder().encodeToString(key.getEncoded());
-      byte[] bytes = Decoders.BASE64.decode(encodedKey);
-      secretKey = Keys.hmacShaKeyFor(bytes);
-    } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
-    }
+  @PostConstruct
+  public void init() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    this.privateKey = loadPrivateKey();
+    this.publicKey = loadPublicKey();
+  }
+
+  private PrivateKey loadPrivateKey()
+      throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    String privateKeyContent =
+        new String(privateKeyResource.getInputStream().readAllBytes())
+            .replaceAll("-----BEGIN PRIVATE KEY-----", "")
+            .replaceAll("-----END PRIVATE KEY-----", "")
+            .replaceAll("\\s", "");
+
+    byte[] decoded = Base64.getDecoder().decode(privateKeyContent);
+    PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(decoded);
+    KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+    return keyFactory.generatePrivate(spec);
+  }
+
+  private PublicKey loadPublicKey()
+      throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    String publicKeyContent =
+        new String(publicKeyResource.getInputStream().readAllBytes())
+            .replaceAll("-----BEGIN PUBLIC KEY-----", "")
+            .replaceAll("-----END PUBLIC KEY-----", "")
+            .replaceAll("\\s", "");
+
+    byte[] decoded = Base64.getDecoder().decode(publicKeyContent);
+    X509EncodedKeySpec spec = new X509EncodedKeySpec(decoded);
+    KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+    return keyFactory.generatePublic(spec);
   }
 
   public String generateToken(TokenClaims tokenClaims, long validity) {
@@ -46,7 +79,7 @@ class JwtService {
         .issuedAt(new Date(System.currentTimeMillis()))
         .expiration(new Date(System.currentTimeMillis() + validity * 1000))
         .and()
-        .signWith(secretKey)
+        .signWith(privateKey)
         .compact();
   }
 
@@ -69,13 +102,12 @@ class JwtService {
   }
 
   private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-
     Claims claims = extractAllClaims(token);
     return claimsResolver.apply(claims);
   }
 
   private Claims extractAllClaims(String token) {
-    return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
+    return Jwts.parser().verifyWith(publicKey).build().parseSignedClaims(token).getPayload();
   }
 
   public boolean isTokenValid(String token) {

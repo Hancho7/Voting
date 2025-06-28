@@ -1,28 +1,42 @@
 package com.hancho.VotingSystem.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-class Users {
+@Table(name = "users")
+public class Users {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private long id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
+  @Column(nullable = true)
   private String name;
 
+  @Column(nullable = false, unique = true)
   private String email;
+
+  @Column(name = "created_at")
+  private LocalDateTime createdAt;
+
+  @Column(name = "last_login_at")
+  private LocalDateTime lastLoginAt;
 
   public Users() {}
 
-  public long getId() {
+  public Users(String email, String name) {
+    this.email = email;
+    this.name = name;
+    this.createdAt = LocalDateTime.now();
+    this.lastLoginAt = LocalDateTime.now();
+  }
+
+  public Long getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -40,5 +54,21 @@ class Users {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public LocalDateTime getLastLoginAt() {
+    return lastLoginAt;
+  }
+
+  public void setLastLoginAt(LocalDateTime lastLoginAt) {
+    this.lastLoginAt = lastLoginAt;
   }
 }

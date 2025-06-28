@@ -43,10 +43,10 @@
       <version>0.12.6</version>
       <scope>runtime</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson -->
+    <!-- JWT Implementation -->
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-jackson</artifactId>
+      <artifactId>jjwt-impl</artifactId>
       <version>0.12.6</version>
       <scope>runtime</scope>
     </dependency>
